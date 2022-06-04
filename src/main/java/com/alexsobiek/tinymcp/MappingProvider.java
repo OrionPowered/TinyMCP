@@ -6,6 +6,7 @@ import cuchaz.enigma.translation.representation.entry.Entry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 public interface MappingProvider {
@@ -64,8 +65,8 @@ public interface MappingProvider {
     }
 
     default void forEach(BiConsumer<Entry<?>, EntryMapping> consumer) {
-        getClassMapper().forEach(consumer::accept);
-        getMethodMapper().forEach(consumer::accept);
-        getFieldMapper().forEach(consumer::accept);
+        Optional.ofNullable(getClassMapper()).ifPresent(m -> m.forEach(consumer::accept));
+        Optional.ofNullable(getMethodMapper()).ifPresent(m -> m.forEach(consumer::accept));
+        Optional.ofNullable(getFieldMapper()).ifPresent(m -> m.forEach(consumer::accept));
     }
 }

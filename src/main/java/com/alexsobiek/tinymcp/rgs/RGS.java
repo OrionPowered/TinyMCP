@@ -1,11 +1,10 @@
 package com.alexsobiek.tinymcp.rgs;
 
-import com.alexsobiek.tinymcp.Mapper;
+import com.alexsobiek.tinymcp.AbstractMapper;
 import com.alexsobiek.tinymcp.MappingProvider;
 import com.alexsobiek.tinymcp.PackageRelocator;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
-import cuchaz.enigma.translation.representation.entry.Entry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
 import cuchaz.enigma.utils.Pair;
@@ -13,11 +12,7 @@ import cuchaz.enigma.utils.Pair;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
-import java.util.function.BiConsumer;
 
 public class RGS implements MappingProvider {
     private final File srgFile;
@@ -50,6 +45,11 @@ public class RGS implements MappingProvider {
                     // Runtime exceptions will be thrown if it receives an invalid line, that's okay.
                 }
             }
+            System.out.println("------------------------------------------");
+            fieldMapper.forEach((e, m) -> {
+                System.out.println(e);
+                System.out.println(m);
+            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,8 +71,8 @@ public class RGS implements MappingProvider {
         public void add(RGSClassMapEntry e) {
             ClassEntry ce = new ClassEntry(e.notchClass);
             EntryMapping em = new EntryMapping(PackageRelocator.DEFAULT.relocate(e.notchClass, e.mappedName), "");
-            byTargetName.put(e.mappedName, ce);
-            byOriginName.put(e.notchClass, em);
+            byDeobfName.put(e.mappedName, ce);
+            byObfName.put(e.notchClass, em);
             mappings.add(new Pair<>(ce, em));
         }
     }
@@ -81,50 +81,20 @@ public class RGS implements MappingProvider {
         public void add(RGSMethodMapEntry e) {
             MethodEntry me = MethodEntry.parse(e.notchClass, e.notchName, e.methodSignature);
             EntryMapping em = new EntryMapping(e.mappedName);
-            byTargetName.put(e.mappedName, me);
-            byOriginName.put(e.notchName, em);
+            byDeobfName.put(e.mappedName, me);
+            byObfName.put(e.notchName, em);
             mappings.add(new Pair<>(me, em));
         }
     }
 
     public static class FieldMapper extends AbstractMapper<FieldEntry> {
         public void add(RGSFieldMapEntry e) {
-            FieldEntry fe = FieldEntry.parse(e.notchClass, e.notchName, "");
+            FieldEntry fe = FieldEntry.parse(e.notchClass, e.notchName, "I");
             EntryMapping em = new EntryMapping(e.mappedName);
-            byTargetName.put(e.mappedName, fe);
-            byOriginName.put(e.notchName, em);
+            byDeobfName.put(e.mappedName, fe);
+            byObfName.put(e.notchName, em);
+            System.out.println("Adding " + new Pair<>(fe, em));
             mappings.add(new Pair<>(fe, em));
-        }
-    }
-
-    private static class AbstractMapper<T extends Entry<?>> implements Mapper<T> {
-        protected final List<Pair<T, EntryMapping>> mappings = new ArrayList<>();
-        protected final HashMap<String, T> byTargetName = new HashMap<>();
-        protected final HashMap<String, EntryMapping> byOriginName = new HashMap<>();
-
-        @Override
-        public T findEntry(String deobfName) {
-            return byTargetName.get(deobfName);
-        }
-
-        @Override
-        public EntryMapping findMapping(String obfName) {
-            return byOriginName.get(obfName);
-        }
-
-        @Override
-        public T find(EntryMapping mapping) {
-            return byTargetName.get(mapping.targetName());
-        }
-
-        @Override
-        public EntryMapping find(T entry) {
-            return byOriginName.get(entry.getName());
-        }
-
-        @Override
-        public void forEach(BiConsumer<T, EntryMapping> consumer) {
-            mappings.forEach(p -> consumer.accept(p.a, p.b));
         }
     }
 }
