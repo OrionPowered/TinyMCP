@@ -1,4 +1,4 @@
-package com.alexsobiek.tinymcp;
+package com.github.quillmc.tinymcp;
 
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.Entry;

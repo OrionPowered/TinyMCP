@@ -1,16 +1,13 @@
-package com.alexsobiek.tinymcp.csv;
+package com.github.quillmc.tinymcp.csv;
 
-import com.alexsobiek.tinymcp.AbstractMapper;
-import com.alexsobiek.tinymcp.Mapper;
-import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.AbstractMapper;
+import com.github.quillmc.tinymcp.MappingProvider;
+import com.github.quillmc.tinymcp.PackageRelocater;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
 import cuchaz.enigma.utils.Pair;
 
 import java.io.File;
-import java.util.Optional;
-import java.util.function.BiConsumer;
 
 public class NamedCSVMethodMapper extends AbstractMapper<MethodEntry> {
     private final MappingProvider intermediary;
@@ -40,7 +37,7 @@ public class NamedCSVMethodMapper extends AbstractMapper<MethodEntry> {
                 if (me != null) {
                     String sig = intermediary.findMethodEntry(row[methodColumn]).getDesc().toString();
                     me = MethodEntry.parse(relocater.relocate("", row[classColumn]), row[methodColumn], sig);
-                    EntryMapping em = new EntryMapping(row[mappedColumn], row[javaDocColumn]);
+                    EntryMapping em = new EntryMapping(row[mappedColumn], row[javaDocColumn].equals("*") ? "" : row[javaDocColumn]);
 
                     byDeobfName.put(row[mappedColumn], me);
                     byObfName.put(row[methodColumn], em);

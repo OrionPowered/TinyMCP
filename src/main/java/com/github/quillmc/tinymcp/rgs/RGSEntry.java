@@ -1,6 +1,4 @@
-package com.alexsobiek.tinymcp.rgs;
-
-import java.util.Arrays;
+package com.github.quillmc.tinymcp.rgs;
 
 public abstract class RGSEntry {
 

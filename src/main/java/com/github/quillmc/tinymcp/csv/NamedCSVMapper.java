@@ -1,14 +1,13 @@
-package com.alexsobiek.tinymcp.csv;
+package com.github.quillmc.tinymcp.csv;
 
-import com.alexsobiek.tinymcp.Mapper;
-import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.Mapper;
+import com.github.quillmc.tinymcp.MappingProvider;
+import com.github.quillmc.tinymcp.PackageRelocater;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
 
 import java.io.File;
-import java.nio.file.Path;
 
 public class NamedCSVMapper implements MappingProvider {
     public static NamedCSVMapper SERVER_BETA1_1__02(MappingProvider intermediary, File methodsCsv, File fieldsCsv) {

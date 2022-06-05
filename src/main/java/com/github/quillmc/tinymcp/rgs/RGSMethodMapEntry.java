@@ -1,4 +1,4 @@
-package com.alexsobiek.tinymcp.rgs;
+package com.github.quillmc.tinymcp.rgs;
 
 public class RGSMethodMapEntry extends RGSEntry {
     protected final String notchName;

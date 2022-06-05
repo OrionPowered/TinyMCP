@@ -1,4 +1,4 @@
-package com.alexsobiek.tinymcp.field;
+package com.github.quillmc.tinymcp.field;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;

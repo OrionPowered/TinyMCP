@@ -1,8 +1,8 @@
-package com.alexsobiek.tinymcp.csv;
+package com.github.quillmc.tinymcp.csv;
 
-import com.alexsobiek.tinymcp.AbstractMapper;
-import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.AbstractMapper;
+import com.github.quillmc.tinymcp.MappingProvider;
+import com.github.quillmc.tinymcp.PackageRelocater;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.utils.Pair;
@@ -36,7 +36,7 @@ public class NamedCSVFieldMapper extends AbstractMapper<FieldEntry> {
                 FieldEntry fe = intermediary.findFieldEntry(row[fieldColumn]);
                 if (fe != null) {
                     fe = FieldEntry.parse(relocater.relocate("", row[classColumn]), row[fieldColumn], fe.getDesc().toString());
-                    EntryMapping em = new EntryMapping(row[mappedColumn], row[javaDocColumn]);
+                    EntryMapping em = new EntryMapping(row[mappedColumn], row[javaDocColumn].equals("*") ? "" : row[javaDocColumn]);
                     byDeobfName.put(row[mappedColumn], fe);
                     byObfName.put(row[fieldColumn], em);
                     mappings.add(new Pair<>(fe, em));

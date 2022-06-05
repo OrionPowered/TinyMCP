@@ -1,9 +1,9 @@
-package com.alexsobiek.tinymcp.rgs;
+package com.github.quillmc.tinymcp.rgs;
 
-import com.alexsobiek.tinymcp.AbstractMapper;
-import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocater;
-import com.alexsobiek.tinymcp.field.FieldCache;
+import com.github.quillmc.tinymcp.AbstractMapper;
+import com.github.quillmc.tinymcp.MappingProvider;
+import com.github.quillmc.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.field.FieldCache;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
@@ -13,7 +13,6 @@ import cuchaz.enigma.utils.Pair;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class RGS implements MappingProvider {

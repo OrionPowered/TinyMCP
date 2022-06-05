@@ -1,4 +1,4 @@
-package com.alexsobiek.tinymcp.csv;
+package com.github.quillmc.tinymcp.csv;
 
 import java.io.File;
 import java.io.FileInputStream;

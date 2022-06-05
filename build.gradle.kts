@@ -8,7 +8,7 @@ group = "com.alexsobiek"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("com.alexsobiek.tinymcp.TinyMCP")
+    mainClass.set("com.github.quillmc.tinymcp.TinyMCP")
 }
 
 repositories {

@@ -1,8 +1,7 @@
-package com.alexsobiek.tinymcp;
+package com.github.quillmc.tinymcp;
 
-import com.alexsobiek.tinymcp.csv.NamedCSVMapper;
-import com.alexsobiek.tinymcp.field.FieldCache;
-import com.alexsobiek.tinymcp.rgs.RGS;
+import com.github.quillmc.tinymcp.csv.NamedCSVMapper;
+import com.github.quillmc.tinymcp.rgs.RGS;
 import cuchaz.enigma.ProgressListener;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.mapping.serde.MappingFileNameFormat;
@@ -12,9 +11,6 @@ import cuchaz.enigma.translation.mapping.tree.EntryTree;
 import cuchaz.enigma.translation.mapping.tree.HashEntryTree;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Opcodes;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +34,7 @@ public class TinyMCP {
         } else {
             System.out.println("Usage: <version> <client/server> <output>");
             System.out.println("Supported versions:");
-            System.out.println("* b1.0_02: server, client");
+            System.out.println("* b1.1_02: server, client");
         }
     }
 
