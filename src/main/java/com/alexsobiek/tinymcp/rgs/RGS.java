@@ -2,7 +2,8 @@ package com.alexsobiek.tinymcp.rgs;
 
 import com.alexsobiek.tinymcp.AbstractMapper;
 import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocator;
+import com.alexsobiek.tinymcp.PackageRelocater;
+import com.alexsobiek.tinymcp.field.FieldCache;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
@@ -12,6 +13,7 @@ import cuchaz.enigma.utils.Pair;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class RGS implements MappingProvider {
@@ -20,11 +22,11 @@ public class RGS implements MappingProvider {
     private final MethodMapper methodMapper;
     private final FieldMapper fieldMapper;
 
-    public RGS(File srgFile) {
+    public RGS(File srgFile, File jar) {
         this.srgFile = srgFile;
         this.classMapper = new ClassMapper();
         this.methodMapper = new MethodMapper();
-        this.fieldMapper = new FieldMapper();
+        this.fieldMapper = new FieldMapper(jar);
         if (!srgFile.exists()) throw new RuntimeException(srgFile + " does not exist");
         parse();
     }
@@ -45,11 +47,6 @@ public class RGS implements MappingProvider {
                     // Runtime exceptions will be thrown if it receives an invalid line, that's okay.
                 }
             }
-            System.out.println("------------------------------------------");
-            fieldMapper.forEach((e, m) -> {
-                System.out.println(e);
-                System.out.println(m);
-            });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +67,7 @@ public class RGS implements MappingProvider {
     public static class ClassMapper extends AbstractMapper<ClassEntry> {
         public void add(RGSClassMapEntry e) {
             ClassEntry ce = new ClassEntry(e.notchClass);
-            EntryMapping em = new EntryMapping(PackageRelocator.DEFAULT.relocate(e.notchClass, e.mappedName), "");
+            EntryMapping em = new EntryMapping(PackageRelocater.DEFAULT.relocate(e.notchClass, e.mappedName), "");
             byDeobfName.put(e.mappedName, ce);
             byObfName.put(e.notchClass, em);
             mappings.add(new Pair<>(ce, em));
@@ -88,13 +85,23 @@ public class RGS implements MappingProvider {
     }
 
     public static class FieldMapper extends AbstractMapper<FieldEntry> {
+        private FieldCache fieldCache;
+        public FieldMapper(File jar) {
+            try {
+                fieldCache = new FieldCache(jar.toPath());
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+
         public void add(RGSFieldMapEntry e) {
-            FieldEntry fe = FieldEntry.parse(e.notchClass, e.notchName, "I");
-            EntryMapping em = new EntryMapping(e.mappedName);
-            byDeobfName.put(e.mappedName, fe);
-            byObfName.put(e.notchName, em);
-            System.out.println("Adding " + new Pair<>(fe, em));
-            mappings.add(new Pair<>(fe, em));
+            fieldCache.getField(e.notchClass, e.notchName).ifPresent(f -> {
+                FieldEntry fe = FieldEntry.parse(e.notchClass, e.notchName, f.descriptor());
+                EntryMapping em = new EntryMapping(e.mappedName);
+                byDeobfName.put(e.mappedName, fe);
+                byObfName.put(e.notchName, em);
+                mappings.add(new Pair<>(fe, em));
+            });
         }
     }
 }

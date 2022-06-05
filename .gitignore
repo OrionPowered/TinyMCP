@@ -9,4 +9,5 @@ idea/
 *.iml
 
 # Project
+.tinymcp/
 mcp/

@@ -2,34 +2,61 @@ package com.alexsobiek.tinymcp.csv;
 
 import com.alexsobiek.tinymcp.Mapper;
 import com.alexsobiek.tinymcp.MappingProvider;
-import com.alexsobiek.tinymcp.PackageRelocator;
+import com.alexsobiek.tinymcp.PackageRelocater;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
 
+import java.io.File;
 import java.nio.file.Path;
 
 public class NamedCSVMapper implements MappingProvider {
-    public static NamedCSVMapper SERVER_BETA1_1__02(MappingProvider intermediary, Path mcpConf) {
+    public static NamedCSVMapper SERVER_BETA1_1__02(MappingProvider intermediary, File methodsCsv, File fieldsCsv) {
         return new NamedCSVMapper(
                 new NamedCSVMethodMapper(
                         intermediary,
-                        mcpConf.resolve("methods.csv").toFile(),
+                        methodsCsv,
                         4,
                         3,
                         4,
                         5,
-                        6, PackageRelocator.DEFAULT
+                        6,
+                        PackageRelocater.DEFAULT
                 ),
                 new NamedCSVFieldMapper(
                         intermediary,
-                        mcpConf.resolve("fields.csv").toFile(),
+                        fieldsCsv,
                         3,
                         4,
                         6,
                         7,
                         8,
-                        PackageRelocator.DEFAULT
+                        PackageRelocater.DEFAULT
+                )
+        );
+    }
+
+    public static NamedCSVMapper CLIENT_BETA1_1__02(MappingProvider intermediary, File methodsCsv, File fieldsCsv) {
+        return new NamedCSVMapper(
+                new NamedCSVMethodMapper(
+                        intermediary,
+                        methodsCsv,
+                        4,
+                        1,
+                        2,
+                        5,
+                        6,
+                        PackageRelocater.DEFAULT
+                ),
+                new NamedCSVFieldMapper(
+                        intermediary,
+                        fieldsCsv,
+                        3,
+                        1,
+                        3,
+                        7,
+                        8,
+                        PackageRelocater.DEFAULT
                 )
         );
     }

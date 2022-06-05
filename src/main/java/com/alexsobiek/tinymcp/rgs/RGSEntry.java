@@ -1,5 +1,7 @@
 package com.alexsobiek.tinymcp.rgs;
 
+import java.util.Arrays;
+
 public abstract class RGSEntry {
 
     public enum Type {
@@ -23,6 +25,11 @@ public abstract class RGSEntry {
         this.type = type;
         this.notchClass = notchClass;
         this.mappedName = mappedName;
+    }
+
+    protected static String[] splitByLast(String splitter, String input) {
+        int i = input.lastIndexOf(splitter);
+        return new String[]{input.substring(0, i), input.substring(i + 1)};
     }
 
     public Type getType() {

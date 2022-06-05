@@ -14,7 +14,7 @@ public class RGSFieldMapEntry extends RGSEntry {
         String[] parts = entry.split("\s+");
         if (!parts[0].equals(".field_map"))
             throw new RuntimeException("Given invalid entry " + entry + " for SRGFieldMapEntry");
-        String[] fieldParts = parts[1].split("/");
+        String[] fieldParts = splitByLast("/", parts[1]);
         return new RGSFieldMapEntry(fieldParts[0], fieldParts[1], parts[2]);
     }
 

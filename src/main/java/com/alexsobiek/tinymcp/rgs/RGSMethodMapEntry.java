@@ -15,7 +15,7 @@ public class RGSMethodMapEntry extends RGSEntry {
         String[] parts = entry.split("\s+");
         if (!parts[0].equals(".method_map"))
             throw new RuntimeException("Given invalid entry " + entry + " for SRGMethodMapEntry");
-        String[] methodParts = parts[1].split("/");
+        String[] methodParts = splitByLast("/", parts[1]);
         return new RGSMethodMapEntry(methodParts[0], methodParts[1], parts[2], parts[3]);
     }
 
