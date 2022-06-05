@@ -1,7 +1,11 @@
 plugins {
     application
+    `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
+
+group = "com.alexsobiek"
+version = "1.0-SNAPSHOT"
 
 application {
     mainClass.set("com.alexsobiek.tinymcp.TinyMCP")
@@ -20,6 +24,7 @@ dependencies {
 tasks {
     jar {
         archiveClassifier.set("unshaded")
+        sourceSets["main"].allSource;
     }
 
     shadowJar {
@@ -28,5 +33,13 @@ tasks {
 
     build {
         dependsOn(shadowJar)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
     }
 }
