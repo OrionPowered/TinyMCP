@@ -4,7 +4,11 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "com.alexsobiek"
+
+java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
+
+group = "com.github.quillmc"
 version = "1.0-SNAPSHOT"
 
 application {
