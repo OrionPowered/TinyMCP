@@ -12,17 +12,20 @@ group = "com.github.quillmc"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("com.github.quillmc.tinymcp.TinyMCP")
+    mainClass.set("com.github.quillmc.tinymcp.CLI")
 }
 
 repositories {
     mavenCentral();
     maven("https://maven.fabricmc.net")
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation("cuchaz:enigma:2.1.0")
     implementation("org.ow2.asm:asm:9.3")
+    implementation("commons-cli:commons-cli:1.5.0")
+    implementation("com.github.alexsobiek:async:7cd100b5df");
 }
 
 tasks {

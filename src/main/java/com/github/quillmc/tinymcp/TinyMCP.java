@@ -20,24 +20,6 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 
 public class TinyMCP {
-
-    public static void main(String[] args) {
-        if (args.length > 2) {
-            Path out = Path.of(args[2]);
-            switch(args[0]) {
-                case "b1.1_02" -> {
-                    if (args[1].equals("server")) SERVER_BETA1_1__02().write(out);
-                    else if (args[1].equals("client")) CLIENT_BETA1_1__02().write(out);
-                }
-                default -> System.out.println("Unsupported version: " + args[0]);
-            }
-        } else {
-            System.out.println("Usage: <version> <client/server> <output>");
-            System.out.println("Supported versions:");
-            System.out.println("* b1.1_02: server, client");
-        }
-    }
-
     private static final File cacheDir = new File(".tinymcp");
 
     static {
