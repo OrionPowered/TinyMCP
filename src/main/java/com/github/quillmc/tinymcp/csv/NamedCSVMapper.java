@@ -2,7 +2,7 @@ package com.github.quillmc.tinymcp.csv;
 
 import com.github.quillmc.tinymcp.Mapper;
 import com.github.quillmc.tinymcp.MappingProvider;
-import com.github.quillmc.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.PackageRelocation;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
 import cuchaz.enigma.translation.representation.entry.FieldEntry;
 import cuchaz.enigma.translation.representation.entry.MethodEntry;
@@ -20,7 +20,7 @@ public class NamedCSVMapper implements MappingProvider {
                         4,
                         5,
                         6,
-                        PackageRelocater.DEFAULT
+                        PackageRelocation.DEFAULT
                 ),
                 new NamedCSVFieldMapper(
                         intermediary,
@@ -30,7 +30,7 @@ public class NamedCSVMapper implements MappingProvider {
                         6,
                         7,
                         8,
-                        PackageRelocater.DEFAULT
+                        PackageRelocation.DEFAULT
                 )
         );
     }
@@ -45,7 +45,7 @@ public class NamedCSVMapper implements MappingProvider {
                         2,
                         5,
                         6,
-                        PackageRelocater.DEFAULT
+                        PackageRelocation.DEFAULT
                 ),
                 new NamedCSVFieldMapper(
                         intermediary,
@@ -55,7 +55,7 @@ public class NamedCSVMapper implements MappingProvider {
                         3,
                         7,
                         8,
-                        PackageRelocater.DEFAULT
+                        PackageRelocation.DEFAULT
                 )
         );
     }

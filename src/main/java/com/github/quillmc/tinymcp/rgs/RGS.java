@@ -2,7 +2,7 @@ package com.github.quillmc.tinymcp.rgs;
 
 import com.github.quillmc.tinymcp.AbstractMapper;
 import com.github.quillmc.tinymcp.MappingProvider;
-import com.github.quillmc.tinymcp.PackageRelocater;
+import com.github.quillmc.tinymcp.PackageRelocation;
 import com.github.quillmc.tinymcp.field.FieldCache;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.representation.entry.ClassEntry;
@@ -66,7 +66,7 @@ public class RGS implements MappingProvider {
     public static class ClassMapper extends AbstractMapper<ClassEntry> {
         public void add(RGSClassMapEntry e) {
             ClassEntry ce = new ClassEntry(e.notchClass);
-            EntryMapping em = new EntryMapping(PackageRelocater.DEFAULT.relocate(e.notchClass, e.mappedName), "");
+            EntryMapping em = new EntryMapping(PackageRelocation.DEFAULT.relocate(e.notchClass, e.mappedName), "");
             byDeobfName.put(e.mappedName, ce);
             byObfName.put(e.notchClass, em);
             mappings.add(new Pair<>(ce, em));
