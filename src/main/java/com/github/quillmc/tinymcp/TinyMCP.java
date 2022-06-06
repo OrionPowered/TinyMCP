@@ -5,7 +5,6 @@ import com.github.quillmc.tinymcp.rgs.RGS;
 import cuchaz.enigma.ProgressListener;
 import cuchaz.enigma.translation.mapping.EntryMapping;
 import cuchaz.enigma.translation.mapping.serde.MappingFileNameFormat;
-import cuchaz.enigma.translation.mapping.serde.MappingFormat;
 import cuchaz.enigma.translation.mapping.serde.MappingSaveParameters;
 import cuchaz.enigma.translation.mapping.tree.EntryTree;
 import cuchaz.enigma.translation.mapping.tree.HashEntryTree;
@@ -20,7 +19,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 
 public class TinyMCP {
-    private static final File cacheDir = new File(".tinymcp");
+    protected static final File cacheDir = new File(".tinymcp");
 
     static {
         if (!cacheDir.exists()) cacheDir.mkdirs();
@@ -36,9 +35,12 @@ public class TinyMCP {
         File fieldsCsv = new File(cacheDir, "mcp26_fields.csv");
         File serverJar = new File(cacheDir, "b1.1_02_server.jar");
 
-        if (!rgs.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/minecraft_server.rgs", rgs);
-        if (!methodsCsv.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/methods.csv", methodsCsv);
-        if (!fieldsCsv.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv", fieldsCsv);
+        if (!rgs.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/minecraft_server.rgs", rgs);
+        if (!methodsCsv.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/methods.csv", methodsCsv);
+        if (!fieldsCsv.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv", fieldsCsv);
         if (!serverJar.exists()) download("http://files.betacraft.uk/server-archive/beta/b1.1_02.jar", serverJar);
 
         tmcp.intermediary = new RGS(rgs, serverJar);
@@ -53,10 +55,14 @@ public class TinyMCP {
         File fieldsCsv = new File(cacheDir, "mcp26_fields.csv");
         File clientJar = new File(cacheDir, "b1.1_02_client.jar");
 
-        if (!rgs.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/minecraft.rgs", rgs);
-        if (!methodsCsv.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/methods.csv", methodsCsv);
-        if (!fieldsCsv.exists()) download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv", fieldsCsv);
-        if (!clientJar.exists()) download("https://launcher.mojang.com/v1/objects/e1c682219df45ebda589a557aadadd6ed093c86c/client.jar", clientJar);
+        if (!rgs.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/minecraft.rgs", rgs);
+        if (!methodsCsv.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/methods.csv", methodsCsv);
+        if (!fieldsCsv.exists())
+            download("https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv", fieldsCsv);
+        if (!clientJar.exists())
+            download("https://launcher.mojang.com/v1/objects/e1c682219df45ebda589a557aadadd6ed093c86c/client.jar", clientJar);
 
         tmcp.intermediary = new RGS(rgs, clientJar);
         tmcp.named = NamedCSVMapper.CLIENT_BETA1_1__02(tmcp.intermediary, methodsCsv, fieldsCsv);
@@ -97,11 +103,10 @@ public class TinyMCP {
                 EntryMapping namedMapping = named.findFieldMapping(m.targetName());
                 if (namedMapping != null) m = namedMapping;
             }
-
             mappings.insert(e, m);
         });
 
-        MappingFormat.TINY_V2.write(mappings, out, progressListener, parameters);
+        Mappings.writer().write(mappings, out, progressListener, parameters);
     }
 
 }
