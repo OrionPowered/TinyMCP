@@ -41,9 +41,9 @@ public class Mappings {
         return remapper(mappings, Type.MCP, Type.NOTCH);
     }
 
-    public static void remap(Path jar, TinyRemapper remapper) {
+    public static void remap(Path jar, Path out, TinyRemapper remapper) {
         NonClassCopyMode nonClassCopyMode = NonClassCopyMode.FIX_META_INF;
-        try (OutputConsumerPath outputConsumer = new OutputConsumerPath.Builder(Path.of(jar.toString().replace(".jar", "-out.jar"))).build()) {
+        try (OutputConsumerPath outputConsumer = new OutputConsumerPath.Builder(out).build()) {
             outputConsumer.addNonClassFiles(jar, nonClassCopyMode, remapper);
             remapper.readInputs(jar);
             remapper.apply(outputConsumer);
@@ -54,7 +54,7 @@ public class Mappings {
         }
     }
 
-    public static void remap(Path mappings, Path jar, Type from, Type to) throws IOException {
-        remap(jar, remapper(mappings, from, to));
+    public static void remap(Path mappings, Path jar, Path out, Type from, Type to) throws IOException {
+        remap(jar, out, remapper(mappings, from, to));
     }
 }
