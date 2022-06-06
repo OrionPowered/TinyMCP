@@ -11,3 +11,6 @@ idea/
 # Project
 .tinymcp/
 mcp/
+*.jar
+*.tiny
+*.tinyv2
