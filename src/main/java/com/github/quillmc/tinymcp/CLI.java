@@ -23,12 +23,12 @@ public class CLI {
         parser = new DefaultParser();
         this.args = Arrays.stream(args).collect(Collectors.toList());
         try {
-            if (this.args.remove("-m") || this.args.remove("-mappings")) mappings();
-            else if (this.args.remove("-r") || this.args.remove("-remap")) remap();
+            if (this.args.contains("-c") || this.args.contains("-create")) createMappings();
+            else if (this.args.contains("-a") || this.args.contains("-apply")) applyMappings();
             else {
                 System.err.println("Unsupported action! Valid actions:");
-                System.err.println("* -m, -mappings     Generates mappings");
-                System.err.println("* -r, -remap        Remaps JAR");
+                System.err.println("* -c, -create       Creates mappings");
+                System.err.println("* -a, -apply        Apply mappings to JAR");
             }
         } catch (ParseException e) {
             throw new RuntimeException(e);
@@ -48,7 +48,9 @@ public class CLI {
         cmd = parser.parse(options, args.toArray(new String[]{}));
     }
 
-    public void mappings() throws ParseException {
+    public void createMappings() throws ParseException {
+        args.remove("-c");
+        args.remove("-create");
         HashMap<String, Version> versions = new HashMap<>() {{
             put("b1.1_02", Version.BETA1_1__02);
         }};
@@ -73,7 +75,23 @@ public class CLI {
         }
     }
 
-    public void remap() {
+    public void applyMappings() throws ParseException {
+        args.remove("-a");
+        args.remove("-apply");
+        options.addRequiredOption("i", "in", true, "Sets the input JAR");
+        options.addRequiredOption("m", "mappings", true, "Sets the TinyV2 mappings file");
+        options.addRequiredOption("t", "type", true, "Sets the type of mapping - mcp or notch");
+        options.addOption("o", "out", true, "Sets the output JAR");
+        parse();
 
+        String inString = cmd.getOptionValue("in");
+
+        Path in = Path.of(inString);
+        Path out = Path.of(cmd.getOptionValue("out", inString.replace(".jar", "-out.jar")));
+        Path mappings = Path.of(cmd.getOptionValue("mappings"));
+
+        Mappings.remap(in, out, cmd.getOptionValue("type").equalsIgnoreCase("MCP")
+                ? Mappings.notchToMCP(mappings)
+                : Mappings.MCPtoNotch(mappings));
     }
 }
