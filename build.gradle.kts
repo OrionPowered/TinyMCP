@@ -25,6 +25,7 @@ dependencies {
     implementation("cuchaz:enigma:2.1.0")
     implementation("org.ow2.asm:asm:9.3")
     implementation("commons-cli:commons-cli:1.5.0")
+    implementation ("net.fabricmc:tiny-remapper:0.8.2")
     implementation("com.github.alexsobiek:async:7cd100b5df");
 }
 
