@@ -107,6 +107,10 @@ public class TinyMCP {
         return mappedJar.get();
     }
 
+    public Path getMappings() {
+        return mappings.get();
+    }
+
     private File mapJar() {
         Path out = Path.of(jar.getAbsolutePath().replace(".jar", ".mapped.jar"));
         Mappings.remap(jar.toPath(), out, Mappings.notchToMCP(this.mappings.get()));
