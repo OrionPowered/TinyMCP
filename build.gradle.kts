@@ -36,7 +36,7 @@ tasks {
     }
 
     shadowJar {
-        archiveClassifier.set("shaded")
+        archiveClassifier.set("")
     }
 
     build {
