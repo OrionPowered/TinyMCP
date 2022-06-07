@@ -1,5 +1,6 @@
 package com.github.quillmc.tinymcp;
 
+import com.alexsobiek.async.util.Lazy;
 import com.github.quillmc.tinymcp.csv.NamedCSVMapper;
 import com.github.quillmc.tinymcp.rgs.RGS;
 import cuchaz.enigma.ProgressListener;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TinyMCP {
+
     public static TinyMCP SERVER_BETA1_1__02() {
         TinyMCP tmcp = new TinyMCP();
         File rgs = tmcp.artifact("mcp26_server.rgs", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/minecraft_server.rgs");
         File methodsCsv = tmcp.artifact("mcp26_methods.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/methods.csv");
         File fieldsCsv = tmcp.artifact("mcp26_fields.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv");
         File serverJar = tmcp.artifact("b1.1_02_server.jar", "http://files.betacraft.uk/server-archive/beta/b1.1_02.jar");
+        tmcp.jar = serverJar;
 
         tmcp.intermediary = new RGS(rgs, serverJar);
         tmcp.named = NamedCSVMapper.SERVER_BETA1_1__02(tmcp.intermediary, methodsCsv, fieldsCsv);
@@ -40,17 +43,22 @@ public class TinyMCP {
         File fieldsCsv = tmcp.artifact("mcp26_fields.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp26/conf/fields.csv");
         File clientJar = tmcp.artifact("b1.1_02_client.jar", "https://launcher.mojang.com/v1/objects/e1c682219df45ebda589a557aadadd6ed093c86c/client.jar");
 
+        tmcp.jar = clientJar;
         tmcp.intermediary = new RGS(rgs, clientJar);
         tmcp.named = NamedCSVMapper.CLIENT_BETA1_1__02(tmcp.intermediary, methodsCsv, fieldsCsv);
         return tmcp;
     }
 
+    protected File jar;
+    protected MappingProvider intermediary;
+    protected MappingProvider named;
+
     private final List<File> artifacts = new ArrayList<>();
     private final File cacheDir = System.getProperty("TINYMCP_CACHE") != null
             ? Path.of(System.getProperty("TINYMCP_CACHE")).toFile()
             : new File(".tinymcp");
-    protected MappingProvider intermediary;
-    protected MappingProvider named;
+    private final Lazy<Path> mappings = new Lazy<>(this::write);
+    private final Lazy<File> mappedJar = new Lazy<>(this::mapJar);
 
     public TinyMCP() {
         if (!cacheDir.exists()) cacheDir.mkdirs();
@@ -91,6 +99,26 @@ public class TinyMCP {
         return artifacts;
     }
 
+    public File getJar() {
+        return jar;
+    }
+
+    public File getMappedJar() {
+        return mappedJar.get();
+    }
+
+    private File mapJar() {
+        Path out = Path.of(jar.getAbsolutePath().replace(".jar", ".mapped.jar"));
+        Mappings.remap(jar.toPath(), out, Mappings.notchToMCP(this.mappings.get()));
+        return out.toFile();
+    }
+
+    public Path write() {
+        Path p = Path.of(jar.getAbsolutePath().replace(".jar", ".tinyv2"));
+        write(p);
+        return p;
+    }
+
     public void write(Path out) {
         MappingSaveParameters parameters = new MappingSaveParameters(MappingFileNameFormat.BY_DEOBF);
         ProgressListener progressListener = ProgressListener.none();
@@ -109,5 +137,4 @@ public class TinyMCP {
 
         Mappings.writer().write(mappings, out, progressListener, parameters);
     }
-
 }
