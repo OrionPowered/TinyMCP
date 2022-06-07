@@ -19,7 +19,9 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 
 public class TinyMCP {
-    protected static final File cacheDir = new File(".tinymcp");
+    protected static final File cacheDir = System.getProperty("TINYMCP_CACHE") != null
+            ? Path.of(System.getProperty("TINYMCP_CACHE")).toFile()
+            : new File(".tinymcp");
 
     static {
         if (!cacheDir.exists()) cacheDir.mkdirs();
