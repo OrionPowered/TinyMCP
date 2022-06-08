@@ -53,6 +53,7 @@ public class CLI {
         args.remove("-create");
         HashMap<String, Version> versions = new HashMap<>() {{
             put("b1.1_02", Version.BETA1_1__02);
+            put("b1.2_02", Version.BETA1_2__02);
         }};
 
         options.addRequiredOption("t", "type", true, "Sets the type of mappings (client/server)");

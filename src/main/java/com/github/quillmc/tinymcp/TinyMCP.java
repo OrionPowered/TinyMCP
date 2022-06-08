@@ -49,6 +49,32 @@ public class TinyMCP {
         return tmcp;
     }
 
+    public static TinyMCP SERVER_BETA1_2_01() {
+        TinyMCP tmcp = new TinyMCP();
+        File rgs = tmcp.artifact("mcp27_server.rgs", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/minecraft_server.rgs");
+        File methodsCsv = tmcp.artifact("mcp27_methods.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/methods.csv");
+        File fieldsCsv = tmcp.artifact("mcp27_fields.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/fields.csv");
+        File serverJar = tmcp.artifact("b1.2_01_server.jar", "http://files.betacraft.uk/server-archive/beta/b1.2_01.jar");
+        tmcp.jar = serverJar;
+
+        tmcp.intermediary = new RGS(rgs, serverJar);
+        tmcp.named = NamedCSVMapper.SERVER_BETA1_2__01(tmcp.intermediary, methodsCsv, fieldsCsv);
+        return tmcp;
+    }
+
+    public static TinyMCP CLIENT_BETA1_2__02() {
+        TinyMCP tmcp = new TinyMCP();
+        File rgs = tmcp.artifact("mcp27_client.rgs", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/minecraft.rgs");
+        File methodsCsv = tmcp.artifact("mcp27_methods.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/methods.csv");
+        File fieldsCsv = tmcp.artifact("mcp27_fields.csv", "https://raw.githubusercontent.com/QuillMC/MCPArchive/main/beta/mcp27/conf/fields.csv");
+        File clientJar = tmcp.artifact("b1.2_02_client.jar", "https://launcher.mojang.com/v1/objects/093f371e1a05d89664cfb8068d607953687d5d94/client.jar");
+
+        tmcp.jar = clientJar;
+        tmcp.intermediary = new RGS(rgs, clientJar);
+        tmcp.named = NamedCSVMapper.CLIENT_BETA1_1__02(tmcp.intermediary, methodsCsv, fieldsCsv);
+        return tmcp;
+    }
+
     protected File jar;
     protected MappingProvider intermediary;
     protected MappingProvider named;
