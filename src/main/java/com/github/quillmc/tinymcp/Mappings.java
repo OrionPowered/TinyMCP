@@ -1,7 +1,6 @@
 package com.github.quillmc.tinymcp;
 
-import com.alexsobiek.async.util.Lazy;
-import cuchaz.enigma.translation.mapping.serde.tinyv2.TinyV2Writer;
+import com.alexsobiek.nexus.lazy.Lazy;import cuchaz.enigma.translation.mapping.serde.tinyv2.TinyV2Writer;
 import net.fabricmc.tinyremapper.NonClassCopyMode;
 import net.fabricmc.tinyremapper.OutputConsumerPath;
 import net.fabricmc.tinyremapper.TinyRemapper;

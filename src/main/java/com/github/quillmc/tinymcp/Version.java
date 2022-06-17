@@ -1,7 +1,6 @@
 package com.github.quillmc.tinymcp;
 
-import com.alexsobiek.async.util.Lazy;
-
+import com.alexsobiek.nexus.lazy.Lazy;
 public enum Version {
     BETA1_1__02(new Lazy<>(TinyMCP::CLIENT_BETA1_1__02), new Lazy<>(TinyMCP::SERVER_BETA1_1__02)),
     // Quick note about Beta 1.2: Beta 1.2_02 exists for the client only. The server only goes to Beta 1.2_01

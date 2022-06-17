@@ -26,7 +26,7 @@ dependencies {
     implementation("org.ow2.asm:asm:9.3")
     implementation("commons-cli:commons-cli:1.5.0")
     implementation ("net.fabricmc:tiny-remapper:0.8.2")
-    implementation("com.alexsobiek:async:7cd100b5df");
+    implementation("com.alexsobiek:nexus:0.1-SNAPSHOT");
 }
 
 tasks {

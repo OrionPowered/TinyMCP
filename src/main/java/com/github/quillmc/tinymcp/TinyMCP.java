@@ -1,6 +1,6 @@
 package com.github.quillmc.tinymcp;
 
-import com.alexsobiek.async.util.Lazy;
+import com.alexsobiek.nexus.lazy.Lazy;
 import com.github.quillmc.tinymcp.csv.NamedCSVMapper;
 import com.github.quillmc.tinymcp.rgs.RGS;
 import cuchaz.enigma.ProgressListener;
